@@ -5,6 +5,8 @@ import csv from './assets/data.csv';
 import WebpackLogo from '@/assets/webpack-logo.png';
 import * as $ from 'jquery';
 import './styles/styles.css';
+import './styles/less.less';
+import './styles/scss.scss';
 
 const post = new Post('Webpack Post', WebpackLogo);
 
