@@ -1,4 +1,4 @@
-const path = require("path");
+const path = require('path');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const {CleanWebpackPlugin} = require('clean-webpack-plugin');
 const CopyWebpackPlugin = require('copy-webpack-plugin');
@@ -12,11 +12,11 @@ const isProd = !isDev;
 const optimization = () => {
     const config = {
         splitChunks: {
-            chunks: "all"
+            chunks: 'all'
         },
     }
 
-    if (isProd){
+    if (isProd) {
         config.minimizer = [
             new OptimizeCssAssetsWebpackPlugin(),
             new TerserWebpackPlugin()
@@ -48,15 +48,15 @@ const cssLoaders = (extra) => {
 }
 
 module.exports = {
-    context: path.resolve(__dirname, "src"),
-    mode: "development",
+    context: path.resolve(__dirname, 'src'),
+    mode: 'development',
     entry: {
-        main: './index.js',
+        main: ['@babel/polyfill','./index.js'],
         analytics: './analytics.js',
     },
     output: {
         filename: filename('js'),
-        path: path.resolve(__dirname, "dist")
+        path: path.resolve(__dirname, 'dist')
     },
     resolve: {
         extensions: ['.js', '.json', '.png'],
@@ -72,7 +72,7 @@ module.exports = {
     },
     plugins: [
         new HTMLWebpackPlugin({
-            template: "./index.html",
+            template: './index.html',
             minify: {
                 collapseWhitespace: isProd
             }
@@ -119,6 +119,21 @@ module.exports = {
             {
                 test: /\.csv/,
                 use: ['csv-loader'],
+            },
+            {
+                test: /\.js$/,
+                exclude: /node_modules/,
+                loader: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: [
+                            '@babel/preset-env'
+                        ],
+                        plugins: [
+                            '@babel/plugin-proposal-class-properties'
+                        ]
+                    }
+                }
             }
         ]
     }
